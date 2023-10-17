@@ -57,16 +57,12 @@ public class MealsRestController {
                 linkTo(methodOn(MealsRestController.class).getMeals()).withSelfRel());
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     @GetMapping("/rest/cheapest-meal")
     EntityModel<Meal> getCheapestMeal() {
         Meal meal = mealsRepository.getCheapestMeal().orElseThrow(MealNotFoundException::new);
         return mealToEntityModel(meal.getId(), meal);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     @GetMapping("/rest/largest-meal")
     EntityModel<Meal> getLargestMeal() {
         Meal meal = mealsRepository.getLargestMeal().orElseThrow(MealNotFoundException::new);
@@ -80,7 +76,6 @@ public class MealsRestController {
         return ResponseEntity.created(linkTo(meal).toUri()).build();
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/rest/meals/{id}")
     void deleteMeal(@PathVariable String id) {
         mealsRepository.deleteMeal(id);

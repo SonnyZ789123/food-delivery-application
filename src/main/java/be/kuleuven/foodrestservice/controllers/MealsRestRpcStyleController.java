@@ -41,7 +41,7 @@ public class MealsRestRpcStyleController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/restrpc/largest meal")
+    @GetMapping("/restrpc/largest-meal")
     Meal getLargestMeal() {
         return mealsRepository.getLargestMeal().orElseThrow(MealNotFoundException::new);
     }
