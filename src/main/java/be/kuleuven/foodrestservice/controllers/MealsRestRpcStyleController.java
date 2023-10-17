@@ -44,4 +44,24 @@ public class MealsRestRpcStyleController {
     Meal getLargestMeal() {
         return mealsRepository.getLargestMeal().orElseThrow(MealNotFoundException::new);
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/restrpc/meals")
+    @ResponseBody
+    void addMeal(@RequestBody Meal meal) {
+        mealsRepository.addMeal(meal);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/restrpc/meals/{id}")
+    void deleteMeal(@PathVariable String id) {
+        mealsRepository.deleteMeal(id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/restrpc/meals/{id}")
+    @ResponseBody
+    void updateMeal(@RequestBody Meal meal) {
+        mealsRepository.updateMeal(meal);
+    }
 }

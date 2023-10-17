@@ -62,4 +62,16 @@ public class MealsRepository {
     public Optional<Meal> getLargestMeal() {
         return meals.values().stream().max(Comparator.comparing(Meal::getKcal));
     }
+
+    public void addMeal(Meal meal) {
+        meals.put(meal.getId(), meal);
+    }
+
+    public void deleteMeal(String id) {
+        meals.remove(id);
+    }
+
+    public void updateMeal(Meal meal) {
+        meals.put(meal.getId(), meal);
+    }
 }
