@@ -1,6 +1,5 @@
 package be.kuleuven.foodrestservice.domain;
 
-import be.kuleuven.foodrestservice.exceptions.MealNotFoundException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -56,13 +55,11 @@ public class MealsRepository {
         return meals.values();
     }
 
-    public Meal getCheapestMeal() {
-        Optional<Meal> cheapestMeal = meals.values().stream().min(Comparator.comparing(Meal::getPrice));
-        return cheapestMeal.orElseThrow(MealNotFoundException::new);
+    public Optional<Meal> getCheapestMeal() {
+        return meals.values().stream().min(Comparator.comparing(Meal::getPrice));
     }
 
-    public Meal getLargestMeal() {
-        Optional<Meal> largestMeal = meals.values().stream().max(Comparator.comparing(Meal::getKcal));
-        return largestMeal.orElseThrow(MealNotFoundException::new);
+    public Optional<Meal> getLargestMeal() {
+        return meals.values().stream().max(Comparator.comparing(Meal::getKcal));
     }
 }
