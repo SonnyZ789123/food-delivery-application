@@ -1,5 +1,6 @@
 package be.kuleuven.foodrestservice.domain;
 
+import be.kuleuven.foodrestservice.exceptions.MealNotFoundException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -71,7 +72,9 @@ public class MealsRepository {
         meals.remove(id);
     }
 
-    public void updateMeal(Meal meal) {
-        meals.put(meal.getId(), meal);
+    public void updateMeal(String id, Meal meal) {
+        if (meals.get(id) == null) throw new MealNotFoundException(id);
+
+        meals.put(id, meal);
     }
 }
