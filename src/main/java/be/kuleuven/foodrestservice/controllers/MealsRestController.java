@@ -58,6 +58,7 @@ public class MealsRestController {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
     @GetMapping("/rest/cheapest-meal")
     EntityModel<Meal> getCheapestMeal() {
         Meal meal = mealsRepository.getCheapestMeal().orElseThrow(MealNotFoundException::new);
@@ -65,10 +66,31 @@ public class MealsRestController {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
     @GetMapping("/rest/largest-meal")
     EntityModel<Meal> getLargestMeal() {
         Meal meal = mealsRepository.getLargestMeal().orElseThrow(MealNotFoundException::new);
         return mealToEntityModel(meal.getId(), meal);
+    }
+
+    @PostMapping("/rest/meals")
+    ResponseEntity<Meal> addMeal(@RequestBody Meal meal) {
+        meal.setId(UUID.randomUUID().toString());
+        mealsRepository.addMeal(meal);
+        return ResponseEntity.created(linkTo(meal).toUri()).build();
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/rest/meals/{id}")
+    void deleteMeal(@PathVariable String id) {
+        mealsRepository.deleteMeal(id);
+    }
+
+    @PutMapping("/rest/meals/{id}")
+    ResponseEntity<EntityModel<Meal>> updateMeal(@PathVariable String id, @RequestBody Meal meal) {
+        mealsRepository.updateMeal(id, meal);
+        EntityModel<Meal> mealEntityModel = mealToEntityModel(id, meal);
+        return ResponseEntity.ok(mealEntityModel);
     }
 
     private EntityModel<Meal> mealToEntityModel(String id, Meal meal) {
