@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,12 +57,14 @@ public class MealsRestController {
                 linkTo(methodOn(MealsRestController.class).getMeals()).withSelfRel());
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/rest/cheapest-meal")
     EntityModel<Meal> getCheapestMeal() {
         Meal meal = mealsRepository.getCheapestMeal().orElseThrow(MealNotFoundException::new);
         return mealToEntityModel(meal.getId(), meal);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/rest/largest-meal")
     EntityModel<Meal> getLargestMeal() {
         Meal meal = mealsRepository.getLargestMeal().orElseThrow(MealNotFoundException::new);
